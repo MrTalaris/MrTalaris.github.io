@@ -11,14 +11,14 @@
 # (Using that method instead of site.owner, in case your posts get cloned with your repo.)
 
 # Site settings
-title: _site name_
-description: _description_
+title: Kevin Talarico
+description: Hi, I'm Kevin! Game designer, gamification specialist, web developer, teacher and, eventually, enthusiastic writer
 owner:
-  name: _your name_ # or company name
-  url: "http://example.com" # your URL
-first_published: 2010 # if migrating another site, the year of your first publish
+  name: Kevin Talarico # or company name
+  url: "http://mrtalaris.github.io" # your URL
+first_published: 2019 # if migrating another site, the year of your first publish
                       # Must be a 4-digit integer year (math is used on it)
-url: "http://example.com" # the base hostname & protocol for this site
+url: "http://mrtalaris.github.io" # the base hostname & protocol for this site
 baseurl: "" # the subpath of your site, e.g. /blog
             # Note you'll have to move your robots.txt to the root if you want it used.
             # And list multiple sitemaps if there are other subdirectories you want indexed
@@ -28,20 +28,21 @@ lang: en-us # used in HTML lang attributes
 # on landing page
 # - set the greeting only if you want to display the first green section
 greeting:
-  title: _Your greeting_  
-  text: _Your detailed greeting text_
+  title: Pleasured to meet you  
+  text: I'm constantly working in creating new ideas for immersive and meaningful experiences, be them analogical or digital. I would love to talk a bit more about topics like gamification, innovation, enterpreneuship and many others, so feel free to reach me out via one of the mediums below and download my CV to learn even more about my projects.
 # - displayed at the bottom
 closing-head: _Your closing_
 closing-para: _Your detailed closing_
 
 # on all pages (and the first three you list display with greeting, if included)
 social:
-  twitter: https://twitter.com/_username_
-  github: https://github.com/_username_
-  linkedin-square: https://linkedin.com/in/_username_
-  facebook-official: https://facebook.com/_username_
-  google-plus-square: https://plus.google.com/u/0/+_username_
-  email: /contact/ # you can configure and use this contact page or use your email addy
+  # twitter: https://twitter.com/_username_
+  # github: https://github.com/_username_
+  linkedin-square: https://linkedin.com/in/kevin-talarico
+  facebook-official: https://facebook.com/talarisvalentine
+  # google-plus-square: https://plus.google.com/u/0/+_username_
+  email: mailto:kevintalarico@hotmail.com
+  file-text: https://drive.google.com/file/d/16H_hPoXYNH6Fi9LqLq3UuD-MGDaKcmOU/view?usp=sharing
   #flickr:
   #instagram:
   #youtube-square:
@@ -76,8 +77,29 @@ social:
   #tripadvisor:
   #amazon:
 
-# - title for your blog's featured posts
-features-title: Featured topics
+# - Highlights
+highlights:
+  gamification:
+    title: I make games work for business results
+    description: I'm currently leading the gamification capability inside IBM Brazil, using game design theory and concepts to help building immersive experiences – always having in mind KPIs that actually attend business results. Our projects are developed using agile methodologies, with the support of many other in-house capabilities, like content writting, UX, visual design and application development.
+  game-design:
+    title: I create innovative tabletop games
+    description: I'm one of the two co-founders and game designers of Potato Cat Games, a Brazilian tabletop development group who has successfully crowdfunded 4 games and released 6 other micro-games. All of them are completely developed and produced in Brazil, as an attempt to stimulate the national market and incentivize indie developers to do the same.
+  teaching:
+    title: I help people to create games and experiences
+    description: I'm often giving classes, workshops and talks regarding gamification and game design, in many different formats and timeboxes. Using interactivity, I believe the best way of helping people understanding topics is by harmonically switching between theory and practice, using games and gamification themselves as part of the experiences.
+
+# - important peers who gave interesting feedback
+testimonials:
+  mia-vanstraelen:
+    name: Mia Vanstraelen
+    position: Director of HR in IBM Brussels
+    feedback: Kevin, it was such a pleasure to find you and the team in Marketing Brazil to develop and execute our project. I truly enjoyed your partnership, your knowledge in gaming and your drive to achieve, particularly in difficult parts of the project
+  steve:
+    name: Estevão Campos
+    position: Global Innovation Leader in IBM's iDEA Lab
+    feedback: There are few individuals capable of reinventing the way we think about business and, ever since you've raised the question "What about gamification?" to our executives, you've been proving, more and more, to everyone in IBM and our team how right you were.
+  
 
 # if you use this repo's `ruby compose.rb` script to initiate new posts, put the
 # command to invoke your editor here. (I didn't spend time dealing with spaces
