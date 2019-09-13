@@ -29,7 +29,7 @@ lang: en-us # used in HTML lang attributes
 # - set the greeting only if you want to display the first green section
 greeting:
   title: Pleasured to meet you  
-  text: I'm constantly working in creating new ideas for immersive and meaningful experiences, be them analogical or digital. I would love to talk a bit more about topics like gamification, innovation, enterpreneuship and many others, so feel free to reach me out via one of the mediums below and download my CV to learn even more about my projects.
+  text: I'm constantly working in creating new ideas for immersive and meaningful experiences, be them analogical or digital. I would love to talk a bit more about topics like gamification, innovation, entrepreneurship and many others, so feel free to reach me out via one of the mediums below and download my CV to learn even more about my projects.
 # - displayed at the bottom
 closing-head: _Your closing_
 closing-para: _Your detailed closing_
