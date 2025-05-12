@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Countdown Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .hidden { display: none; }
+        .big-text { font-size: 6rem; margin: 20px; }
+        .success { color: lime; }
+        .failure { color: red; }
+
+        .timer {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8rem;
+            color: red;
+            font-weight: normal;
+            margin: 20px auto;
+        }
+
+        .input-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            font-size: 2rem;
+            padding: 10px;
+        }
+
+        .small-images {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .small-images img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .blink {
+            animation: blink 0.5s alternate 3;
+        }
+
+        .submit-arrow {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, color 0.2s ease;
+            color: white;
+        }
+
+        .submit-arrow:hover {
+            transform: scale(1.2);
+            color: #ff3333; /* Subtle red highlight on hover */
+        }
+
+        .submit-arrow:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="startButton">Start</button>
+
+    <div id="challengeArea" class="hidden">
+        <div id="timer" class="timer">01:00:00.000</div>
+        <div class="input-area">
+            <input type="text" id="passwordInput" placeholder="Enter password">
+            <button id="submitButton" class="submit-arrow" aria-label="Submit">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
+        </div>
+        <div class="small-images">
+            <img src="images/symbol-01.png" alt="icon">
+            <img src="images/symbol-02.png" alt="icon">
+            <img src="images/symbol-03.png" alt="icon">
+            <img src="images/symbol-04.png" alt="icon">
+            <img src="images/symbol-05.png" alt="icon">
+            <img src="images/symbol-06.png" alt="icon">
+        </div>
+    </div>
+
+    <div id="resultMessage" class="big-text hidden"></div>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const challengeArea = document.getElementById('challengeArea');
+        const timerDisplay = document.getElementById('timer');
+        const passwordInput = document.getElementById('passwordInput');
+        const submitButton = document.getElementById('submitButton');
+        const resultMessage = document.getElementById('resultMessage');
+
+        const PASSWORD = "AAAAAA";
+
+        let countdownInterval = null;
+        let rKeyTimer = null;
+        let rKeyHeld = false;
+        let pressedTime = null;
+
+        function pad(num, size = 2) {
+            return String(num).padStart(size, '0');
+        }
+
+        function updateCountdown() {
+            const now = Date.now();
+            let diffMs = 3600 * 1000 - (now - pressedTime);
+
+            if (diffMs <= 0) {
+                diffMs = 0;
+                clearInterval(countdownInterval);
+            }
+
+            const h = Math.floor(diffMs / 3600000);
+            const m = Math.floor((diffMs % 3600000) / 60000);
+            const s = Math.floor((diffMs % 60000) / 1000);
+            const ms = diffMs % 1000;
+
+            timerDisplay.textContent = `${pad(h)}:${pad(m)}:${pad(s)}.${pad(ms, 3)}`;
+
+            if (diffMs === 0) {
+                handleFailure();
+            }
+        }
+
+        function handleFailure() {
+            localStorage.setItem('result', 'FAILURE');
+            stopTimer();
+            blinkAndShowResult('FAILURE', 'failure');
+        }
+
+        function handleSuccess() {
+            localStorage.setItem('result', 'SUCCESS');
+            stopTimer();
+            blinkAndShowResult('SUCCESS', 'success');
+        }
+
+        function blinkAndShowResult(text, className) {
+            challengeArea.classList.add('hidden');
+            resultMessage.className = `big-text ${className} blink`;
+            resultMessage.textContent = text;
+        }
+
+        function stopTimer() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null; // 🟢 Also nullify to prevent re-entry
+            }
+        }
+
+        function startTimer() {
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 30);
+        }
+
+        function quickAdvanceTimer() {
+            stopTimer(); // 🟢 FIX: Stop the normal countdown first!
+
+            let diffMs = getCurrentTimeMs();
+            let decrement = 5000; // 5s initial decrement
+            const minInterval = 50; // tick interval
+
+            const interval = setInterval(() => {
+                diffMs -= decrement;
+                decrement += 500; // speed up
+
+                if (diffMs <= 0) {
+                    diffMs = 0;
+                    clearInterval(interval);
+                    handleFailure();
+                }
+
+                const h = Math.floor(diffMs / 3600000);
+                const m = Math.floor((diffMs % 3600000) / 60000);
+                const s = Math.floor((diffMs % 60000) / 1000);
+                const ms = diffMs % 1000;
+
+                timerDisplay.textContent = `${pad(h)}:${pad(m)}:${pad(s)}.${pad(ms, 3)}`;
+            }, minInterval);
+        }
+
+        function getCurrentTimeMs() {
+            const now = Date.now();
+            return Math.max(0, 3600 * 1000 - (now - pressedTime));
+        }
+
+        function checkLocalStorageState() {
+            const result = localStorage.getItem('result');
+            if (result === 'SUCCESS') {
+                blinkAndShowResult('SUCCESS', 'success');
+                return true;
+            } else if (result === 'FAILURE') {
+                blinkAndShowResult('FAILURE', 'failure');
+                return true;
+            }
+            return false;
+        }
+
+        function initPage() {
+            if (localStorage.getItem('button_pressed')) {
+                pressedTime = parseInt(localStorage.getItem('button_pressed'), 10);
+                startButton.classList.add('hidden');
+                challengeArea.classList.remove('hidden');
+                if (!checkLocalStorageState()) startTimer();
+            }
+        }
+
+        startButton.addEventListener('click', () => {
+            localStorage.setItem('button_pressed', Date.now());
+            location.reload();
+        });
+
+        submitButton.addEventListener('click', () => {
+            const attempt = passwordInput.value.trim();
+            passwordInput.disabled = true;
+            submitButton.disabled = true;
+
+            if (attempt === PASSWORD) {
+                handleSuccess();
+            } else {
+                quickAdvanceTimer();
+            }
+        });
+
+        // Anti-cheat inspector detection
+        setInterval(() => {
+            if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
+                if (!passwordInput.disabled) {
+                    passwordInput.value = 'CHEATER';
+                    submitButton.click();
+                }
+            }
+        }, 1000);
+
+        // R key reset for 10s
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'r' || e.key === 'R') {
+                if (!rKeyHeld) {
+                    rKeyHeld = true;
+                    rKeyTimer = setTimeout(() => {
+                        localStorage.clear();
+                        location.reload();
+                    }, 10000); // 10 seconds hold
+                }
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'r' || e.key === 'R') {
+                rKeyHeld = false;
+                clearTimeout(rKeyTimer);
+            }
+        });
+
+        // Initialize
+        initPage();
+    </script>
+</body>
+</html>
